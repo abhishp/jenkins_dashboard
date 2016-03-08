@@ -11,16 +11,17 @@ describe 'get build data from jenkins' do
                        'id' => '15',
                        'result' => 'SUCCESS',
                        'timestamp' => 1453489268807,
-                       'url' => 'urlOfSorts'
+                       'url' => 'urlOfSorts',
+                       'culprits' => []
       }]
     }
-    stub_request(:get, 'http://username:password@jenkins-url/view/project/job/jenkins-build/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName]').
+    stub_request(:get, 'http://username:password@jenkins-url/view/project/job/jenkins-build/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName,culprits[fullName]]').
          to_return(:status => 200, :body => @jenkins_response.to_json, :headers => {})
   end
 
   it 'should get jenkins build info from jenkins api' do
     build_health = get_build_health id:  'jenkins-build', server: 'Jenkins'
-    expect(WebMock.a_request(:get, 'http://username:password@jenkins-url/view/project/job/jenkins-build/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName]')).to have_been_made
+    expect(WebMock.a_request(:get, 'http://username:password@jenkins-url/view/project/job/jenkins-build/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName,culprits[fullName]]')).to have_been_made
   end
 
   it 'should return the name of the build' do
@@ -42,13 +43,14 @@ describe 'get build data from jenkins' do
                  'id' => '1',
                  'result' => 'FAILURE',
                  'timestamp' => 1451584715235,
-                 'url' => 'someurl/1/'
+                 'url' => 'someurl/1/',
+                 'culprits' => []
              }]
     }
-    stub_request(:get, 'http://username:password@jenkins-url/view/project/job/jenkins-build/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName]').
+    stub_request(:get, 'http://username:password@jenkins-url/view/project/job/jenkins-build/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName,culprits[fullName]]').
          to_return(:status => 200, :body => failed_build.to_json, :headers => {})
     build_health = get_build_health id:  'jenkins-build', server: 'Jenkins'
-    expect(build_health[:status]).to eq('Failed')
+    expect(build_health[:status]).to eq('broke')
   end
 
   it 'should return the duration of the latest build, in seconds' do
@@ -74,17 +76,19 @@ describe 'get build data from jenkins' do
                        'id' => '15',
                        'result' => 'SUCCESS',
                        'timestamp' => 1453489268807,
-                       'url' => 'someurl/15/'
+                       'url' => 'someurl/15/',
+                       'culprits' => []
       }, {
                        'duration' => 427875,
                        'fullDisplayName' => 'a build',
                        'id' => '1',
                        'result' => 'FAILURE',
                        'timestamp' => 1451584715235,
-                       'url' => 'someurl/1/'
+                       'url' => 'someurl/1/',
+                       'culprits' => []
       }]
     }
-    stub_request(:get, 'http://username:password@jenkins-url/view/project/job/jenkins-build/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName]').
+    stub_request(:get, 'http://username:password@jenkins-url/view/project/job/jenkins-build/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName,culprits[fullName]]').
          to_return(:status => 200, :body => so_so.to_json, :headers => {})
     build_health = get_build_health id:  'jenkins-build', server: 'Jenkins'
     expect(build_health[:health]).to eq(50)
@@ -98,14 +102,16 @@ describe 'get build data from jenkins' do
                        'id' => '15',
                        'result' => 'ABORTED',
                        'timestamp' => 1453489268807,
-                       'url' => 'someurl/15/'
+                       'url' => 'someurl/15/',
+                       'culprits' => []
       }, {
                        'duration' => 427875,
                        'fullDisplayName' => 'a build',
                        'id' => '1',
                        'result' => nil,
                        'timestamp' => 1451584715235,
-                       'url' => 'someurl/1/'
+                       'url' => 'someurl/1/',
+                       'culprits' => []
       },
                      {
                        'duration' => 427875,
@@ -113,10 +119,11 @@ describe 'get build data from jenkins' do
                        'id' => '1',
                        'result' => 'SUCCESS',
                        'timestamp' => 1451584715235,
-                       'url' => 'someurl/1/'
+                       'url' => 'someurl/1/',
+                       'culprits' => []
       }]
     }
-    stub_request(:get, 'http://username:password@jenkins-url/view/project/job/jenkins-build/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName]').
+    stub_request(:get, 'http://username:password@jenkins-url/view/project/job/jenkins-build/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName,culprits[fullName]]').
          to_return(:status => 200, :body => running_builds.to_json, :headers => {})
     build_health = get_build_health id:  'jenkins-build', server: 'Jenkins'
     expect(build_health[:status]).to eq('Running')
@@ -130,14 +137,16 @@ describe 'get build data from jenkins' do
                        'id' => '15',
                        'result' => nil,
                        'timestamp' => 1453489268807,
-                       'url' => 'someurl/15/'
+                       'url' => 'someurl/15/',
+                       'culprits' => []
       }, {
                        'duration' => 427875,
                        'fullDisplayName' => 'a build',
                        'id' => '1',
                        'result' => nil,
                        'timestamp' => 1451584715235,
-                       'url' => 'someurl/1/'
+                       'url' => 'someurl/1/',
+                       'culprits' => []
       },
                      {
                        'duration' => 427875,
@@ -145,10 +154,11 @@ describe 'get build data from jenkins' do
                        'id' => '1',
                        'result' => 'SUCCESS',
                        'timestamp' => 1451584715235,
-                       'url' => 'someurl/1/'
+                       'url' => 'someurl/1/',
+                       'culprits' => []
       }]
     }
-    stub_request(:get, 'http://username:password@jenkins-url/view/project/job/jenkins-build/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName]').
+    stub_request(:get, 'http://username:password@jenkins-url/view/project/job/jenkins-build/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName,culprits[fullName]]').
          to_return(:status => 200, :body => running_builds.to_json, :headers => {})
     build_health = get_build_health id:  'jenkins-build', server: 'Jenkins'
     expect(build_health[:health]).to eq(100)
@@ -162,14 +172,16 @@ describe 'get build data from jenkins' do
                          'id' => '15',
                          'result' => 'ABORTED',
                          'timestamp' => 1453489268807,
-                         'url' => 'someurl/15/'
+                         'url' => 'someurl/15/',
+                         'culprits' => []
                      }, {
                          'duration' => 427875,
                          'fullDisplayName' => 'a build',
                          'id' => '1',
                          'result' => nil,
                          'timestamp' => 1451584715235,
-                         'url' => 'someurl/1/'
+                         'url' => 'someurl/1/',
+                         'culprits' => []
                      },
                      {
                          'duration' => 427875,
@@ -177,7 +189,8 @@ describe 'get build data from jenkins' do
                          'id' => '1',
                          'result' => 'SUCCESS',
                          'timestamp' => 1451584715235,
-                         'url' => 'someurl/1/'
+                         'url' => 'someurl/1/',
+                         'culprits' => []
                      },
                      {
                          'duration' => 427875,
@@ -185,13 +198,32 @@ describe 'get build data from jenkins' do
                          'id' => '1',
                          'result' => 'FAILED',
                          'timestamp' => 1451584715235,
-                         'url' => 'someurl/1/'
+                         'url' => 'someurl/1/',
+                         'culprits' => []
                      }]
     }
-    stub_request(:get, 'http://username:password@jenkins-url/view/project/job/jenkins-build/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName]').
+    stub_request(:get, 'http://username:password@jenkins-url/view/project/job/jenkins-build/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName,culprits[fullName]]').
         to_return(:status => 200, :body => running_builds.to_json, :headers => {})
     build_health = get_build_health id:  'jenkins-build', server: 'Jenkins'
     expect(build_health[:health]).to eq(50.0)
+  end
+
+  it 'should return the culprit of last failed commit' do
+    builds = {
+        'builds' => [{
+                         'duration' => 459766,
+                         'fullDisplayName' => 'a build',
+                         'id' => '15',
+                         'result' => 'SUCCESS',
+                         'timestamp' => 1453489268807,
+                         'url' => 'someurl/15/',
+                         'culprits' => [{'fullName' => 'name'}]
+                     }]
+    }
+    stub_request(:get, 'http://username:password@jenkins-url/view/project/job/jenkins-build/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName,culprits[fullName]]').
+        to_return(:status => 200, :body => builds.to_json, :headers => {})
+    build_health = get_build_health id:  'jenkins-build', server: 'Jenkins'
+    expect(build_health[:culprit]).to eq('Name')
   end
 
 end

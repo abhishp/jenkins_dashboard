@@ -1,5 +1,5 @@
 SUCCESS = 'Successful'
-FAILED = 'Failed'
+FAILED = 'broke'
 ABORTED = 'Aborted'
 
 BUILD_STATUS = {
@@ -40,24 +40,36 @@ def get_build_health(build)
   api_functions[build[:server]].call(build[:id])
 end
 
-def get_latest_run_build(builds)
-  builds.first[:result] != 'ABORTED' ? builds.first : get_latest_run_build(builds[1..-1])
+def latest_run_build(builds)
+  builds.first[:result] != 'ABORTED' ? builds.first : latest_run_build(builds[1..-1])
+end
+
+def latest_committer(builds)
+  return if builds.nil? || builds.length <= 0
+
+  latest_committers = latest_run_build(builds)[:culprits]
+
+  return if latest_committers.length <= 0
+
+  latest_committers.first[:fullName].capitalize
 end
 
 def get_jenkins_build_health(build_id)
-  url = "#{Builds::JENKINS_CONFIG[:baseURL]}/view/#{Builds::JENKINS_CONFIG[:project]}/job/#{build_id}/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName]"
+  url = "#{Builds::JENKINS_CONFIG[:baseURL]}/view/#{Builds::JENKINS_CONFIG[:project]}/job/#{build_id}/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName,culprits[fullName]]"
   build_info = get_url URI.encode(url), [Builds::JENKINS_CONFIG[:username], Builds::JENKINS_CONFIG[:password]]
   builds = build_info[:builds]
   executed_builds = builds.select { |build| !(build[:result] == 'ABORTED' || build[:result].nil?) }
   successful_count = executed_builds.count { |build| build[:result] == 'SUCCESS' }
-  latest_build = get_latest_run_build(builds)
+  latest_build = latest_run_build(builds)
   {
     name: latest_build[:fullDisplayName],
     status: BUILD_STATUS[latest_build[:result]],
     duration: latest_build[:duration] / 1000,
     link: latest_build[:url],
     health: calculate_health(successful_count, executed_builds.count),
-    time: latest_build[:timestamp]
+    time: latest_build[:timestamp],
+    culprit: latest_committer(builds),
+    showCulprit: latest_build[:result] == 'FAILURE'
   }
 end
 

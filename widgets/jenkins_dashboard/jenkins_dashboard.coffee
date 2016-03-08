@@ -6,7 +6,7 @@ Batman.Filters.durationFormat = (duration) ->
 
 class Dashing.JenkinsDashboard extends Dashing.Widget
   onData: (data) ->
-    if data.status == 'Failed'
+    if data.status == 'broke'
       $(@node).css('background-color', '#a73737')
     else if data.status == 'Successful'
       $(@node).css('background-color', '#03A06E')

@@ -18,17 +18,17 @@ Deploy To QA - Authentication: |+
   data: {"name":"Deploy To QA - Authentication #41","status":"Successful","duration":49,"link":"http://ci.babajob.com:9090/view/Platform/job/Deploy%20To%20QA%20-%20Authentication/41/","health":97.56,"time":1457409683354,"id":"Deploy To QA - Authentication","updatedAt":1457456322}
 
 platform_build: |+
-  data: {"name":"Platform-Build #323","status":"Failed","duration":9,"link":"http://ci.babajob.com:9090/view/Platform/job/Platform-Build/323/","health":69.0,"time":1457443149341,"id":"platform_build","updatedAt":1457456536}
+  data: {"name":"Platform-Build #323","status":"broke","duration":9,"link":"http://ci.babajob.com:9090/view/Platform/job/Platform-Build/323/","health":69.7,"time":1457443149341,"culprit":"Nirupamap","showCulprit":true,"id":"platform_build","updatedAt":1457469967}
 
 deploy_to_qa_job_seeker: |+
-  data: {"name":"Deploy To QA - JobSeeker #38","status":"Successful","duration":18,"link":"http://ci.babajob.com:9090/view/Platform/job/Deploy%20To%20QA%20-%20JobSeeker/38/","health":83.33,"time":1457434970529,"id":"deploy_to_qa_job_seeker","updatedAt":1457456536}
+  data: {"name":"Deploy To QA - JobSeeker #38","status":"Successful","duration":18,"link":"http://ci.babajob.com:9090/view/Platform/job/Deploy%20To%20QA%20-%20JobSeeker/38/","health":100.0,"time":1457434970529,"culprit":null,"showCulprit":false,"id":"deploy_to_qa_job_seeker","updatedAt":1457469967}
 
 deploy_to_qa_auth: |+
-  data: {"name":"Deploy To QA - Authentication #41","status":"Successful","duration":49,"link":"http://ci.babajob.com:9090/view/Platform/job/Deploy%20To%20QA%20-%20Authentication/41/","health":97.56,"time":1457409683354,"id":"deploy_to_qa_auth","updatedAt":1457456537}
+  data: {"name":"Deploy To QA - Authentication #41","status":"Successful","duration":49,"link":"http://ci.babajob.com:9090/view/Platform/job/Deploy%20To%20QA%20-%20Authentication/41/","health":100.0,"time":1457409683354,"culprit":null,"showCulprit":false,"id":"deploy_to_qa_auth","updatedAt":1457469958}
 
 deploy_to_qa_job_post: |+
-  data: {"name":"Deploy To QA - JobPost #11","status":"Successful","duration":18,"link":"http://ci.babajob.com:9090/view/Platform/job/Deploy%20To%20QA%20-%20JobPost/11/","health":100.0,"time":1457344645858,"id":"deploy_to_qa_job_post","updatedAt":1457456527}
+  data: {"name":"Deploy To QA - JobPost #11","status":"Successful","duration":18,"link":"http://ci.babajob.com:9090/view/Platform/job/Deploy%20To%20QA%20-%20JobPost/11/","health":100.0,"time":1457344645858,"culprit":null,"showCulprit":false,"id":"deploy_to_qa_job_post","updatedAt":1457469959}
 
 deploy_to_qa_job_application: |+
-  data: {"name":"Deploy To QA - JobApplication #10","status":"Successful","duration":18,"link":"http://ci.babajob.com:9090/view/Platform/job/Deploy%20To%20QA%20-%20JobApplication/10/","health":100.0,"time":1457416042326,"id":"deploy_to_qa_job_application","updatedAt":1457456527}
+  data: {"name":"Deploy To QA - JobApplication #10","status":"Successful","duration":18,"link":"http://ci.babajob.com:9090/view/Platform/job/Deploy%20To%20QA%20-%20JobApplication/10/","health":100.0,"time":1457416042326,"culprit":null,"showCulprit":false,"id":"deploy_to_qa_job_application","updatedAt":1457469959}
 

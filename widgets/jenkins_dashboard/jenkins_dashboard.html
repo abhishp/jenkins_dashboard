@@ -1,6 +1,9 @@
-<h1 class="title" data-bind="name"></h1>
+<a data-bind-href="link" target="_blank"><h1 class="title" data-bind="name"></h1></a>
 
-<h3 data-bind="status"></h3>
+<p>
+  <strong data-showif="showCulprit" data-bind="culprit"> </strong> <strong data-bind="status"></strong> <strong data-showif="showCulprit">the build.</strong>
+</p>
+
 
 <p data-showif="show-health">
   <img data-bind-src="image"></img>
@@ -11,5 +14,5 @@
   <span data-showif="duration">Ran for <span data-bind="duration | durationFormat"></span>,</span>
   <span data-showif="time" data-bind="time | dateFormat"></span>
 </p>
-<p class="more-info"><a data-bind-href="link">View on <span data-bind="server"></span></a></p>
+<p class="more-info"><a data-bind-href="link" target="_blank">View on <span data-bind="server"></span></a></p>
 <p class="updated-at" data-bind="updatedAtMessage"></p>
