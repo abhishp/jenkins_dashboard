@@ -41,22 +41,22 @@ def get_build_health(build)
 end
 
 def get_latest_run_build(builds)
-  builds.first[:result] != 'ABORTED' ? builds.first : get_latest_run_build(builds[1, -1])
+  builds.first[:result] != 'ABORTED' ? builds.first : get_latest_run_build(builds[1..-1])
 end
 
 def get_jenkins_build_health(build_id)
   url = "#{Builds::JENKINS_CONFIG[:baseURL]}/view/#{Builds::JENKINS_CONFIG[:project]}/job/#{build_id}/api/json?tree=builds[status,timestamp,id,result,duration,url,fullDisplayName]"
   build_info = get_url URI.encode(url), [Builds::JENKINS_CONFIG[:username], Builds::JENKINS_CONFIG[:password]]
   builds = build_info[:builds]
-  builds_with_status = builds.select { |build| !build[:result].nil? }
-  successful_count = builds_with_status.count { |build| build[:result] == 'SUCCESS' }
+  executed_builds = builds.select { |build| !(build[:result] == 'ABORTED' || build[:result].nil?) }
+  successful_count = executed_builds.count { |build| build[:result] == 'SUCCESS' }
   latest_build = get_latest_run_build(builds)
   {
     name: latest_build[:fullDisplayName],
     status: BUILD_STATUS[latest_build[:result]],
     duration: latest_build[:duration] / 1000,
     link: latest_build[:url],
-    health: calculate_health(successful_count, builds_with_status.count),
+    health: calculate_health(successful_count, executed_builds.count),
     time: latest_build[:timestamp]
   }
 end

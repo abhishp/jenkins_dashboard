@@ -1,8 +1,6 @@
-# Build Window
+# Jenkins Dashboard
 
-[![Build Status](https://travis-ci.org/rouanw/build-window.svg?branch=master)](https://travis-ci.org/rouanw/build-window)
-
-Dashboard built using [Dashing](http://shopify.github.com/dashing). Currently supports Jenkins, Travis, TeamCity, Bamboo and Go.
+Jenkins CI Build Dashboard built using [Dashing](http://shopify.github.com/dashing).
 
 ## Example
 
@@ -12,7 +10,7 @@ Dashboard built using [Dashing](http://shopify.github.com/dashing). Currently su
 
 Run `bundle install`.
 
-Edit `config/jenkins.yml` with the configuration for your builds:
+Edit `config/jenkins.yml` with the configuration for your jenkins server:
 
 ```
 jenkins:
@@ -23,11 +21,17 @@ jenkins:
 
 ```
 
-Place your API credentials in a `.env` file at the root of the project. (Please note that authentication is currently only supported for Go CD.) Example:
+Edit `config/builds.yml` with the configuration for your builds:
 
 ```
-GO_USER=view
-GO_PASSWORD=password
+builds:
+  build_name:
+    id: <build_id_on_jenkins>
+    server: Jenkins
+    size: #widget size for this build
+      horizontal: <columns>
+      vertical: <rows>
+
 ```
 
 Run `dashing start`.
@@ -40,7 +44,7 @@ See https://github.com/Shopify/dashing/wiki for more details.
 
 ## Docker support
 
-You can spin up a Docker container with build-window by running:
+You can spin up a Docker container with jenkins-dashboard by running:
 
 `docker-compose up -d`
 
@@ -51,7 +55,3 @@ You can also build the image and run a container separately, but [Docker Compose
 ## Contributing
 
 Pull requests welcome. Run the tests with `rspec`.
-
-## Contributions
-
-Thanks to Max Lincoln ([@maxlinc](https://github.com/maxlinc)) for coming up with the name __Build Window__.
