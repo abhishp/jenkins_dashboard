@@ -1,0 +1,7 @@
+builds:
+  build_name:
+    id: <build_id_on_jenkins>
+    server: Jenkins
+    size: #widget size for this build
+      horizontal: <columns>
+      vertical: <rows>

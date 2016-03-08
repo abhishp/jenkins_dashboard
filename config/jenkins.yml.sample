@@ -1,0 +1,5 @@
+jenkins:
+  baseURL: http://jenkins-url
+  username: <username>
+  password: <password>
+  project: <jenkins_project>

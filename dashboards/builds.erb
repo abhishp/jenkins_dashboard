@@ -1,0 +1,14 @@
+<div class="gridster">
+  <ul>
+    <% num_cols = (Builds::BUILDS_CONFIG.count > 4) ? 4 : 2 %>
+    <% Builds::BUILDS_CONFIG.each_with_index do |(build_name,build_config), index| %>
+      <% build_num = index + 1 %>
+      <li data-row="<%= build_num % num_cols == 0 ? build_num / num_cols : build_num / num_cols + 1 %>"
+          data-col="<%= build_num % num_cols == 0 ? num_cols : build_num % num_cols %>"
+          data-sizex="<%= build_config[:size][:horizontal] %>" data-sizey="<%= build_config[:size][:vertical] %>">
+        <div data-id="<%= build_name %>" data-server="<%= build_config[:server] %>"
+             data-view="JenkinsDashboard"></div>
+      </li>
+    <% end %>
+  </ul>
+</div>

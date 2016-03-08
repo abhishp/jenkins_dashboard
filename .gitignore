@@ -1,0 +1,4 @@
+.idea
+vendor
+config/*.yml
+assets/stylesheets/custom.scss
