@@ -11,7 +11,7 @@ class HashExtensions
           str = k.to_s; h[str] if h.key?(str)
       end
     end
-    hash.each_pair do |k, v|
+    hash.each_pair do |_, v|
       case v
         when Hash
            indifferent_access(v)
