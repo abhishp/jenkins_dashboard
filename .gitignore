@@ -3,3 +3,4 @@ vendor
 config/*.yml
 assets/stylesheets/custom.scss
 log
+history.yml
